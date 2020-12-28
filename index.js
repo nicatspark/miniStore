@@ -5,6 +5,7 @@ miniStore.INIT = {
   one: 1,
   two: 2,
   three: 3,
+  codeBlock: document.querySelector('pre'),
 };
 
 // Add/update state.
@@ -36,3 +37,21 @@ miniStore.REMOVE_CALLBACK = 'two';
 miniStore.DELETE = 'two';
 
 console.log('"Two removed:', miniStore.STATE);
+
+// This code loads source code and reveals it in the GUI.
+window.onload = () => {
+  const { codeBlock } = miniStore.STATE;
+  const revealDuration =
+    parseInt(
+      getComputedStyle(codeBlock).getPropertyValue('--reveal-duration')
+    ) * 1000;
+  fetch('miniStore.js')
+    .then((res) => res.text())
+    .then((data) => {
+      codeBlock.innerHTML = data;
+      codeBlock.classList.add('reveal');
+      setTimeout(() => {
+        codeBlock.classList.remove('hide-overflow', 'reveal');
+      }, revealDuration);
+    });
+};

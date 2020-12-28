@@ -3,12 +3,30 @@
 ::before {
   box-sizing: border-box;
 }
+:root {
+  --reveal-duration: 2s;
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
 div {
   max-width: 500px;
+  margin: 3em auto 1em;
+}
+div.separator {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  margin: 3em auto;
+  height: 1px;
+}
+pre {
+  height: unset;
+  transition: height var(--reveal-duration) linear;
+  color: #ccc;
+}
+pre.reveal {
+  height: 1500px;
+}
+.hide-overflow {
+  overflow: hidden;
+  height: 0;
 }
