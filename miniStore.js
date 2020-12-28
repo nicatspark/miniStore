@@ -4,7 +4,7 @@ const miniStore = {
   _internal: {
     initiated: false,
     fatalError: false,
-    get state_compromised() {
+    get stateHasErrors() {
       if (this.fatalError) {
         throw 'The state is compromised.';
       } else return false;
@@ -32,11 +32,11 @@ const miniStore = {
     this._internal.initiated = true;
   },
   get STATE() {
-    if (this._internal.state_compromised) return;
+    if (this._internal.stateHasErrors) return;
     return this._stateObj;
   },
   set SET(partialState) {
-    if (this._internal.state_compromised) return;
+    if (this._internal.stateHasErrors) return;
     // Find and store callback functions.
     Object.keys(partialState).forEach((key) => {
       if (this._internal.isCallback(key)) {
@@ -64,7 +64,7 @@ const miniStore = {
     });
   },
   set DELETE(key) {
-    if (this._internal.state_compromised) return;
+    if (this._internal.stateHasErrors) return;
     if (this._stateObj[key]) {
       const temp = { ...this._stateObj };
       delete temp[key];
@@ -77,7 +77,7 @@ const miniStore = {
     }
   },
   set REMOVE_CALLBACK(key) {
-    if (this._internal.state_compromised) return;
+    if (this._internal.stateHasErrors) return;
     if (this._callbackObj[`${key}_callback`]) {
       const temp = { ...this._callbackObj };
       delete temp[`${key}_callback`];
