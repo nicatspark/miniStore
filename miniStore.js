@@ -3,6 +3,7 @@ const miniStore = {
   _callbackObj: {},
   _internal: {
     initiated: false,
+    history: {},
     fatalError: false,
     get stateHasErrors() {
       if (this.fatalError) {
@@ -49,17 +50,27 @@ const miniStore = {
     // Update state.
     Object.keys(partialState).forEach((key) => {
       if (!this._internal.isCallback(key)) {
+        const oldValue = this._stateObj[key];
+        const newValue = partialState[key];
+        storeInHistory(key, this._internal.history, oldValue);
         const newKeyValue = {};
-        newKeyValue[key] = partialState[key];
+        newKeyValue[key] = newValue;
         this._stateObj = Object.freeze({ ...this._stateObj, ...newKeyValue });
         // Check if there is a callback for this change.
         if (this._callbackObj[`${key}_callback`]) {
           console.assert(
-            (typeof this._callbackObj[`${key}_callback`]).toString() !==
+            (typeof this._callbackObj[`${key}_callback`]).toString() ===
               'function',
-            'Callback is not a function.'
+            'A callback need to be a function.'
           );
-          this._callbackObj[`${key}_callback`].call(this);
+          this._callbackObj[`${key}_callback`].call(this, {
+            oldValue,
+            newValue,
+          });
+        }
+        function storeInHistory(key, history, previousValue) {
+          history[key] = history[key] || [];
+          history[key] = [...history[key], previousValue];
         }
       }
     });
