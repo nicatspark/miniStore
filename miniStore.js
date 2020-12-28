@@ -6,7 +6,7 @@ const miniStore = {
     fatalError: false,
     get stateHasErrors() {
       if (this.fatalError) {
-        throw 'The state is compromised.';
+        throw new Error('The state is compromised.');
       } else return false;
     },
     isCallback: function (key) {
@@ -32,7 +32,7 @@ const miniStore = {
     this._internal.initiated = true;
   },
   get STATE() {
-    if (this._internal.stateHasErrors) return;
+    if (this._internal.stateHasErrors) return {};
     return this._stateObj;
   },
   set SET(partialState) {
@@ -55,7 +55,8 @@ const miniStore = {
         // Check if there is a callback for this change.
         if (this._callbackObj[`${key}_callback`]) {
           console.assert(
-            typeof this._callbackObj[`${key}_callback`] !== 'Function',
+            (typeof this._callbackObj[`${key}_callback`]).toString() !==
+              'function',
             'Callback is not a function.'
           );
           this._callbackObj[`${key}_callback`].call(this);
