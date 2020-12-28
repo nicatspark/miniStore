@@ -46,7 +46,7 @@ header.innerHTML = 'Got it!';
 ```
 
 ####Add a change callback to a property.
-Example code: Every time the 'two' property is updated a function is run that creates/updates a 'sum' property in the state. It could as well do DOM manipulations of course. Note: it's the trailing '\_callback' that indicates that this is indeed a callback function to, in this case, the 'two' property.
+Example code: Every time the 'two' property is updated a function is run that creates/updates a 'sum' property in the state. It could as well do DOM manipulations of course. Note: it's the trailing '\_callback' that indicates that this is indeed a callback function to, in this case, the 'two' property in the state.
 
 ```
 miniStore.SET = {
@@ -55,6 +55,17 @@ miniStore.SET = {
     const {one, two, three} = this._stateObj;
     this._stateObj = {...this._stateObj, sum: one+two+three};
     console.log('New state:', this._stateObj);
+  },
+}
+```
+
+Optional default variables available in a callback, oldValue, newValue, historyArray.
+
+```
+miniStore.SET = {
+  two_callback: function({oldValue, newValue, historyArray}) {
+    console.log('Old value of "two" vs new:', oldValue, newValue);
+    console.log('Entire history of previous changes to "two":', historyArray);
   },
 }
 ```
@@ -114,7 +125,7 @@ By the way, **do not use arrow functions to define your callbacks** since _that_
 
 #### TODOS
 
-##### Expose oldValue / newValue in callbacks
+##### ~~Expose oldValue / newValue in callbacks~~ Done
 
 The old value in particular is hard to get right now from a callback. It wouldn't be to hard to store the entire old state in an internal array. Primarily to be able to expose oldValue/newValue inside callbacks but it would facilitate for timetravel á la redux style. Although that probably is out of scope for a minimal footprint state manager. Anyway, never heard anyone put the timetravel feature to good use. Tell me if you have. Maybe timetravel on a single property would be a better usercase from a developers point of view actually. Maybe just be able to retreive a full array of all changes to pick from on any property would be usefull.
 

@@ -17,12 +17,13 @@ console.log('State initiated and "two" consequently updated:', miniStore.STATE);
 
 // Adds a change callback.
 miniStore.SET = {
-  two_callback: function ({ oldValue, newValue }) {
+  two_callback: function ({ oldValue, newValue, historyArray }) {
     const { one, two, three } = miniStore.STATE;
     miniStore.SET = { sum: one + two + three };
     alert('Just updated "two" in miniStore. Check the console.');
-    console.log('"Two" updated and triggered a alert:', miniStore.STATE);
-    console.log('Old and new value:', oldValue, newValue);
+    console.log('"two" updated and triggered a alert:', miniStore.STATE);
+    console.log('Old and new value of "two":', oldValue, newValue);
+    console.log('History of changes for "two":', historyArray);
   },
 };
 
@@ -36,7 +37,7 @@ miniStore.REMOVE_CALLBACK = 'two';
 // Remove state property (and callback).
 miniStore.DELETE = 'two';
 
-console.log('"Two removed:', miniStore.STATE);
+console.log('"two" removed:', miniStore.STATE);
 
 // This code loads source code and reveals it in the GUI.
 window.onload = () => {
