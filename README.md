@@ -136,3 +136,11 @@ Instead of exposing all internals try to superimpose the getters/setters (withou
 ##### Fire a javascript change event with a full and updated state attached?
 
 A listener could be set up anywere it made sense in the app and react to specific prop changes. It would make it easier to have a loose coupling, event driven, update situation. Also make it easier to set up a pub/sub pattern. However, I am not a big fan of relying on javascript events because they fail silently and are abstract to work with. In a big application the start upp time for a new developer becomes steeper. This could be somewhat mitigated by being very cautious with the shape of the listener pattern. Not sure if it is a god idea but on the other hand it would take literally just one line of code to implement on the source code side of it I guess.
+
+##### Allow multiple callbacks per property
+
+Make the callback to be an array of functions instead. Have the remove command filter and remove by comparing function to be removed. _(would work similarily to the native javascript add/remove listener)_
+
+##### Create a settings command and default settings
+
+In order to control max size of history and perhaps offer a verbose mode that would show/hide log of what is happening under the hood for dev purpose. A debug mode that outputs the state in a table in the log after state change. Perhaps having a setting for if a callback should be run if the new property is the same as the old one, i.e. no change.
