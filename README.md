@@ -45,7 +45,8 @@ const { header } = miniStore.STATE;
 header.innerHTML = 'Got it!';
 ```
 
-####Add a change callback to a property.
+#### Add a change callback to a property.
+
 Example code: Every time the 'two' property is updated a function is run that creates/updates a 'sum' property in the state. It could as well do DOM manipulations of course. Note: it's the trailing '\_callback' that indicates that this is indeed a callback function to, in this case, the 'two' property in the state.
 
 ```
